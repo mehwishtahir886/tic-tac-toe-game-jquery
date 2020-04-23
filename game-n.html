@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background:url(six.jpg);
+            background-size: 100% 100%;
+        }
+        .box{
+            position: relative;
+        width:60vh;
+        height:60vh;
+        margin:10% auto;
+        background:rgba(114, 95, 59, 0.4);
+         display: grid;
+         grid-template-columns:repeat(3, 20vh);
+         grid-template-rows:repeat(3, 20vh);
+         border-radius: 32px;
+         overflow: hidden;
+         border:2px solid whitesmoke;
+        }
+        input{
+            background: transparent;
+            font-size: 5em;
+            border-collapse:inherit;
+            outline: none;
+        }
+        .output{           
+position:absolute;
+height:99%;
+width:99%;
+display:flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background:url(back.gif);
+border:2px solid white;
+border-radius: 30px;
+        }
+        .output h1{
+            color:whitesmoke;
+            text-shadow: 0px 0px 5px rgb(59, 47, 23);
+            font-size: 3.5em;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .output button{
+            background:rgb(59, 47, 23);
+            color:white;
+            padding: 15px 25px;
+            font-size: 1.3em;
+            font-weight: bolder;
+        border-radius: 20px;
+        }
+        .output button:hover{
+            background:whitesmoke;
+            color:rgb(59, 47, 23);   
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+<input id="zero" type="button">
+<input id="one" type="button">
+<input id="two" type="button">
+<input id="three" type="button">
+<input id="four" type="button">
+<input id="five" type="button">
+<input id="six" type="button">
+<input id="seven" type="button">
+<input id="eight" type="button">
+<audio id="audio1" src="fires.mp3"></audio>
+</div>
+<script>
+var turn=1;
+$('input').on('click',function(){
+if(turn==1 || turn==3 || turn==5 || turn==7 || turn==9)
+{
+    $(this).attr("value", "X")
+    $(this).css({background: "rgb(59, 47, 23)",color: "rgb(216, 176, 100)", textShadow:  "0px 0px 8px silver"});
+    $(this).attr('disabled','disabled');
+    turn++
+    winnerX();
+}
+else if(turn==2 || turn==4 || turn==6 || turn==8){
+    $(this).attr("value", "O")
+    $(this).css({background: "rgb(216, 176, 100)",color: "rgb(59, 47, 23)", textShadow:  "0px 0px 8px grey"}); 
+    $(this).attr('disabled','disabled');
+    turn++
+    winnerO();
+}
+})
+
+// -------------------------winnerX----------------------------
+
+function winnerX(){
+    if(   
+    $('#zero').attr("value")=="X"  && $('#one').attr("value")=="X" && $('#two').attr("value")=="X" ||
+    $('#one').attr("value")== "X" && $('#four').attr("value")=="X" && $('#seven').attr("value")=="X"||
+    $('#two').attr("value")=="X" && $('#four').attr("value")=="X" && $('#six').attr("value")=="X" ||
+    $('#three').attr("value")=="X" && $('#four').attr("value")=="X" && $('#five').attr("value")=="X" ||
+    $('#zero').attr("value")=="X" && $('#three').attr("value")=="X" && $('#six').attr("value")=="X" ||
+    $('#zero').attr("value")== "X" && $('#four').attr("value")=="X" && $('#eight').attr("value")=="X" ||
+    $('#two').attr("value")=="X" && $('#five').attr("value")=="X" && $('#eight').attr("value")=="X" ||
+    $('#six').attr("value")=="X" && $('#seven').attr("value")=="X" && $('#eight').attr("value")=="X"
+    )
+    {
+output()        
+$('.output h1').append('"X" is Winner')
+$('button').on('click', function(){
+$(".output").hide();
+location.reload();
+})
+}  
+else if(turn==10){
+    output()  
+    draws();      
+} 
+}
+
+// -------------------------winnerO----------------------------
+function winnerO(){
+    if(   
+        $('#one').attr("value")== "O" && $('#four').attr("value")=="O" && $('#seven').attr("value")=="O"  ||
+    $('#zero').attr("value")=="O"  && $('#one').attr("value")=="O" && $('#two').attr("value")=="O" ||
+    $('#two').attr("value")=="O" && $('#four').attr("value")=="O" && $('#six').attr("value")=="O" ||
+    $('#three').attr("value")=="O" && $('#four').attr("value")=="O" && $('#five').attr("value")=="O" ||
+    $('#zero').attr("value")=="O" && $('#three').attr("value")=="O" && $('#six').attr("value")=="O" ||
+    $('#zero').attr("value")== "O" && $('#four').attr("value")=="O" && $('#eight').attr("value")=="O" ||
+    $('#two').attr("value")=="O" && $('#five').attr("value")=="O" && $('#eight').attr("value")=="O" ||
+    $('#six').attr("value")=="O" && $('#seven').attr("value")=="O" && $('#eight').attr("value")=="O"
+    )
+    {
+ output();         
+$('.output h1').append('"O" is Winner')               
+$('button').on('click', function(){
+$(".output").hide();
+location.reload();
+})
+}
+else if(turn==10){
+    output()  
+    draws();
+}    
+}
+
+// -------------------draw-----------------
+
+function draws(){
+    $('.output h1').append('Game Draws')
+$('.output').css("background-image", "url(three.jpg)")
+$('button').on('click', function(){
+$(".output").hide();
+location.reload();
+})
+ 
+}
+// -----------------------output---------------
+function output(){
+$('.box').append('<div class="output"></div>')      
+$('.output').append('<h1></h1>')
+$('.output').append('<button>Restart</button>')
+$('input').attr('disabled','disabled');
+}
+</script>
+</body>
+</html>
